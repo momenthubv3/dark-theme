@@ -1,0 +1,464 @@
+local hook
+hook = hookmetamethod(game, '__index', newcclosure(function(self, key)
+    if tostring(self) == 'Humanoid' and tostring(key) == 'WalkSpeed' then
+        return 16
+    end
+    return hook(self, key)
+end))
+
+local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
+local mychar = game.Players.LocalPlayer.Character
+
+
+
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
+
+local UI = Material.Load({
+     Title = "Gura Hub : Miami, Florida Roleplay: Remastered",
+     Style = 3,
+     SizeX = 500,
+     SizeY = 450,
+     Theme = "Mocha"
+})
+
+Page.Dropdown({
+    Text = "theme's",
+    Callback = function(value)
+        if value == "Dark" then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/momenthubv3/dark-theme/main/safasfg"))()
+        elseif value == "Bank" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(93.3074951, 11.1943741, 319.916443, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+
+        end
+    end,
+    Options = {"Dark", "Mocha"}
+})
+
+
+--[[
+UI.Banner({
+    Text = "The Chance of being banned is not 0% and dont abuse all feature, admin can ban you People are not stupid!"
+})
+]]
+local Page = UI.New({
+    Title = "Main"
+})
+local function getinvisibility()
+    if game:GetService("Players").LocalPlayer.Character:FindFirstChild("LowerTorso") and  game:GetService("Players").LocalPlayer.Character:FindFirstChild("UpperTorso") then
+        if game:GetService("Players").LocalPlayer.Character.LowerTorso:FindFirstChild("Root") and game:GetService("Players").LocalPlayer.Character.UpperTorso:FindFirstChild("Waist") then
+            if getgenv().Autofarm == true then
+                getgenv().Autofarm = false
+                wasautofarming = true
+            elseif getgenv().Autofarm == false then
+                wasautofarming = false
+            end
+            yes = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame    
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(256.636, -148.872, 5362.02)}):Play()
+            
+            wait(1)
+            game:GetService("Players").LocalPlayer.Character.LowerTorso.Anchored = true
+            game:GetService("Players").LocalPlayer.Character.UpperTorso.Anchored = true
+            wait(0.5)
+            if game:GetService("Players").LocalPlayer.Character.LowerTorso:FindFirstChild("Root") then
+                wait(0.2)
+                game:GetService("Players").LocalPlayer.Character.LowerTorso:FindFirstChild("Root"):Remove()
+            end
+            if game:GetService("Players").LocalPlayer.Character.UpperTorso:FindFirstChild("Waist") then
+                wait(0.2)
+                game:GetService("Players").LocalPlayer.Character.UpperTorso:FindFirstChild("Waist"):Remove()
+            end
+            wait(1)
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = yes
+            wait(1)
+            for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.CanCollide = true
+                end
+            end  
+            if wasautofarming == true then
+                getgenv().Autofarm = true
+                -- Re put the can collide
+                for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = true
+                    end
+                end
+                -- 
+            elseif wasautofarming == false then
+                -- Void
+            end
+        end
+    elseif not game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        warn("Player Must Be Spawned!")
+    end
+end
+
+Page.Button({
+    Text = "Invisible [Unstable GUN DONT WORK IN INVISIBLE]",
+    Callback = function()
+        getinvisibility()
+        for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = true
+            end
+        end  
+    end
+})
+
+Page.Toggle({
+    Text = "No Jump Cooldown",
+    Callback = function(value)
+        getgenv().NoJumpCD = value
+
+        while getgenv().NoJumpCD do
+            sea = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("JumpCooldown")
+            if sea then
+                game:GetService("Players").LocalPlayer.PlayerGui.JumpCooldown.Disabled = true
+            end
+            wait()
+        end
+        if value == false then
+            game:GetService("Players").LocalPlayer.PlayerGui.JumpCooldown.Disabled = false
+        end
+    end,
+    Enabled = false
+})
+Page.Toggle({
+    Text = "Inf Stamina",
+    Callback = function(value)
+        getgenv().InfStamina = value
+
+        while getgenv().InfStamina do
+            sus = game:GetService("Players").LocalPlayer.Character:FindFirstChild("Handler")
+            if sus then
+                sus.Values.MaxStamina.CurrentStamina.Value = 100
+                wait(1)
+            end
+            wait()
+        end
+    end,
+    Enabled = false
+})
+Page.Button({
+    Text = "Fast Reset",
+    Callback = function()
+        game:GetService("Players").LocalPlayer.Character:FindFirstChild("Head"):Destroy()   
+    end
+})
+Page.Toggle({
+    Text = "Active Speed",
+    Callback = function(value)
+        getgenv().ActiveSpeed = value
+
+        while getgenv().ActiveSpeed do
+            se = game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid")
+            if se then
+                se.WalkSpeed = getgenv().SpeedValue
+            end
+            wait()
+        end
+    end,
+    Enabled = false
+})
+Page.Toggle({
+    Text = "Active JumpPower",
+    Callback = function(value)
+        getgenv().ActiveJump = value
+
+        while getgenv().ActiveJump do
+            se = game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid")
+            if se then
+                se.JumpPower = getgenv().JumpPowerValue
+            end
+            wait()
+        end
+    end,
+    Enabled = false
+})
+Page.Slider({
+    Text = "WalkSpeed",
+    Callback = function(value)
+        getgenv().SpeedValue = value
+    end,
+    Min = 16,
+    Max = 250,
+    Def = 16
+})
+Page.Slider({
+    Text = "JumpPower",
+    Callback = function(value)
+        getgenv().JumpPowerValue = value
+    end,
+    Min = 50,
+    Max = 300,
+    Def = 50
+})
+
+local Page = UI.New({
+    Title = "Teleport"
+})
+local players = game.Players:GetChildren()
+local PlayerList = {}
+
+for i,v in pairs(players) do
+    table.insert(PlayerList,v.Name)
+end
+
+local playerdropdown = Page.Dropdown({
+    Text = "Goto Player",
+    Callback = function(value)
+        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Players")[value].Character.HumanoidRootPart.CFrame
+    end,
+    Options = PlayerList
+})
+
+local Players = game:GetService("Players")
+Players.PlayerAdded:Connect(function(player)
+    local players = game.Players:GetChildren()
+    local PlayerList = {}
+    
+    for i,v in pairs(players) do
+        table.insert(PlayerList,v.Name)
+    end
+	playerdropdown:SetOptions(PlayerList)
+end)
+ 
+Players.PlayerRemoving:Connect(function(player)
+    local players = game.Players:GetChildren()
+    local PlayerList = {}
+    
+    for i,v in pairs(players) do
+        table.insert(PlayerList,v.Name)
+    end
+	playerdropdown:SetOptions(PlayerList)
+end)
+
+
+Page.Dropdown({
+    Text = "Green Zones",
+    Callback = function(value)
+        if value == "Gun Store" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(85, 8.03733253, -76.6575699, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+        elseif value == "Harolds" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(231.812759, 8.03733253, -62.2232018, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+        elseif value == "Bank" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(93.3074951, 11.1943741, 319.916443, 1, 0, 0, 0, 1, 0, 0, 0, 1)}):Play()
+
+        end
+    end,
+    Options = {"Gun Store", "Harolds", "Bank"}
+})
+
+
+Page.Dropdown({
+    Text = "Illegal NPC",
+    Callback = function(value)
+        if value == "Melee NPC" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(68.8914261, 7.070611, 79.849968, -0.00748701114, -8.25138855e-08, 0.999971986, -5.49994716e-08, 1, 8.21044068e-08, -0.999971986, -5.43832144e-08, -0.00748701114)}):Play()
+        elseif value == "illegal GunDealer NPC" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(247.889481, 6.53366661, 1054.17273, -0.924062073, 1.12401501e-08, 0.382242441, 2.82729502e-08, 1, 3.89433765e-08, -0.382242441, 4.67932182e-08, -0.924062073)}):Play()
+
+        elseif value == "" then
+        end
+    end,
+    Options = {"Melee NPC", "illegal GunDealer NPC"}
+})
+
+Page.Dropdown({
+    Text = "Shop",
+    Callback = function(value)
+        if value == "Barber Shop" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(35.5687561, 9, 130.41893, 0, 0, 1, 0, 1, -0, -1, 0, 0)}):Play()
+        elseif value == "Clothe Store" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(335, 7.71928692, -124.568909, 0, 0, 1, 0, 1, -0, -1, 0, 0)}):Play()
+        elseif value == "Lawa" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(60.7309265, 9.15037537, -223.681885, 0, 0, 1, 0, 1, -0, -1, 0, 0)}):Play()
+        elseif value == "Tatoo Shop" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(227.369965, 10.5634804, -111.12468, 0, 0, 1, 0, 1, -0, -1, 0, 0)}):Play()
+        elseif value == "Melrose Outlet" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(1651.22803, 8.16531181, 26.3695946, 0.991813719, 2.69486371e-08, -0.127693146, -2.09592805e-08, 1, 4.82479656e-08, 0.127693146, -4.51766375e-08, 0.991813719)}):Play()
+        elseif value == "Car Dealership" then
+            game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(-376.103424, 7.04724121, -530.603943, -0.345048845, 7.05419296e-08, 0.938584745, -7.75435183e-09, 1, -7.8008469e-08, -0.938584745, -3.41948478e-08, -0.345048845)}):Play()
+        
+        end
+    end,
+    Options = {"Barber Shop", "Clothe Store", "Lawa", "Tatoo Shop", "Melrose Outlet", "Car Dealership"}
+})
+
+local Page = UI.New({
+    Title = "Autofarm"
+})
+Page.Toggle({
+    Text = "Auto Invisible",
+    Callback = function(value)
+        getgenv().AutoInvisible = value
+    end,
+    Enabled = false
+})
+local function GetHaroldJob()
+    if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        wait(0.1)
+        game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(237.635773, 7.16408348, -49.5773392, -0.0390030034, 1.8023112e-15, -0.999239087, -9.56244062e-09, 1, 3.73249709e-10, 0.999239087, 9.56972279e-09, -0.0390030034)}):Play()
+        wait(0.5)
+        fireproximityprompt(game:GetService("Workspace").MapStuff.Jobs.HaroldsCleaning.JobBoard.Start.ProximityPrompt)
+    end
+end
+Page.Toggle({
+    Text = "Autofarm Cleaning",
+    Callback = function(value)
+        getgenv().Autofarm = value -- To turn off change the true by 'false'
+
+        for i,v in pairs(game:GetService("Workspace").MapStuff.Jobs.HaroldsCleaning.CleaningParts:GetChildren()) do
+            v.Prompt.RequiresLineOfSight = false
+        end
+        spawn(function()
+            local mychar = game.Players.LocalPlayer.Character
+            while getgenv().Autofarm do
+                if getgenv().AutoInvisible == true then
+                    getinvisibility()
+                end
+                if game:GetService("Players").LocalPlayer.Settings.Character.Job.Value == "Harolds Cleaning Job" then
+                    for i,v in pairs(game:GetService("Workspace").MapStuff.Jobs.HaroldsCleaning.CleaningParts:GetChildren()) do
+                        v.Prompt.RequiresLineOfSight = false
+                        local tool = Players.LocalPlayer.Character:FindFirstChild("Broom") or Players.LocalPlayer.Backpack:FindFirstChild("Broom")
+                        if tool then
+                            humanoid = Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                            humanoid:EquipTool(tool)	
+                            if v.Handler.Cleaned.Value == false then
+                                hum = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                if hum then
+                                    if game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored == false then
+                                        game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame*CFrame.new(5,0,0)
+                                        wait(0.2)
+                                        fireproximityprompt(v.Prompt)
+                                    elseif game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored == true then
+                                        --warn("User Is In Interaction!")
+                                    end
+                                end
+                            end
+                        elseif not tool then
+                            warn("Player Died or have no broom")
+                            GetHaroldJob()
+                        end
+                    end
+                elseif game:GetService("Players").LocalPlayer.Settings.Character.Job.Value == "Jobless" then
+                    GetHaroldJob()
+                elseif game:GetService("Players").LocalPlayer.Settings.Character.Job.Value == "None" then
+                    GetHaroldJob()
+                else
+                    warn("Job Must Be Jobless or Harolds Cleaning Job [UNKNOW JOB DETECTED] : "..game:GetService("Players").LocalPlayer.Settings.Character.Job.Value.."")
+                    GetHaroldJob()
+                    warn("Trying to get Harolds Cleaning Job!")
+                end
+                wait(1)
+            end
+        end)
+    end,
+    Enabled = false
+})
+
+Page.Toggle({
+    Text = "Auto Pizza Job",
+    Callback = function(value)
+        getgenv().AutoPizzaJob = value
+
+        while getgenv().AutoPizzaJob do
+            if not game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("JobGui") then
+                game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(215.928116, 6.98311996, 884.241272, 0.109480478, 7.29956717e-09, -0.993988931, -5.62015456e-09, 1, 6.7246928e-09, 0.993988931, 4.85014873e-09, 0.109480478)}):Play()
+            wait()
+            game:GetService("Workspace").MapStuff.Jobs.PizzaJob.JobBoard.Start.ProximityPrompt.RequiresLineOfSight = false
+            wait(0.5)
+            fireproximityprompt(game:GetService("Workspace").MapStuff.Jobs.PizzaJob.JobBoard.Start.ProximityPrompt)
+            else
+                local Players = game:GetService("Players")
+                --print("Have Job")
+                if Players.LocalPlayer.Character:FindFirstChild("Pizza Box") or Players.LocalPlayer.Backpack:FindFirstChild("Pizza Box") then
+                    local tool = Players.LocalPlayer.Character:FindFirstChild("Pizza Box") or Players.LocalPlayer.Backpack:FindFirstChild("Pizza Box")
+                    if tool then
+                        humanoid = Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                        humanoid:EquipTool(tool)	
+                    end
+                    for i,v in pairs(game:GetService("Workspace").MapStuff.Jobs.PizzaJob.DeliveryPlaces:GetChildren()) do
+                        if v.BillboardGui.Enabled == true then
+                            Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = v.HitBox.CFrame
+                            game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").Jump = true
+                        end
+                    end
+                else 
+                    game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(0, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = CFrame.new(202.854141, 6.98311996, 862.697754, -0.995154321, 3.24312204e-08, 0.09832564, 3.62789656e-08, 1, 3.73447904e-08, -0.09832564, 4.07309777e-08, -0.995154321)}):Play()
+                    game:GetService("Workspace").MapStuff.Jobs.PizzaJob.DeliveryPart.Hitbox.ProximityPrompt.RequiresLineOfSight = false
+                    wait(0.2)
+                    fireproximityprompt(game:GetService("Workspace").MapStuff.Jobs.PizzaJob.DeliveryPart.Hitbox.ProximityPrompt)
+                end
+            end
+            wait(1)
+        end
+    end,
+    Enabled = false
+})
+
+local Page = UI.New({
+    Title = "Combat"
+})
+local Page = UI.New({
+    Title = "Misc"
+})
+Page.Toggle({
+    Text = "Auto Day",
+    Callback = function(value)
+        getgenv().AntiUC= value
+        while getgenv().AntiUC do
+            game.Lighting.ClockTime = 12
+        wait() 
+        end
+    end,
+    Enabled = false
+})
+Page.Toggle({
+    Text = "Anti Gun Blur",
+    Callback = function(value)
+        getgenv().antigunblur=value
+        while getgenv().antigunblur do
+            lightgunblur= game:GetService("Lighting"):FindFirstChild("GunBlur")
+            if lightgunblur then
+                game:GetService("Lighting").GunBlur.Enabled=false
+            end
+        wait() 
+        end
+    end,
+    Enabled = false
+})
+Page.Toggle({
+    Text = "Anti Hurt Blur",
+    Callback = function(value)
+        getgenv().antiPermHurtBlur= value
+        while getgenv().antiPermHurtBlur do
+            lightPermHurtBlur = game:GetService("Lighting"):FindFirstChild("PermHurtBlur")
+            if lightPermHurtBlur then
+                game:GetService("Lighting").PermHurtBlur.Enabled = false
+            end
+        wait() 
+        end
+    end,
+    Enabled = false
+})
+Page.Toggle({
+    Text = "Anti UC",
+    Callback = function(value)
+        getgenv().AntiUC= value
+        while getgenv().AntiUC do
+            UC_V = game:GetService("Lighting"):FindFirstChild("UC")
+            if UC_V then
+                game:GetService("Lighting").UC.Enabled = false
+            end
+        wait() 
+        end
+    end,
+    Enabled = false
+})
